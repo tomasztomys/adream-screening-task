@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import UserModal from './components/UserModal/UserModal';
 import { connect } from 'react-redux';
 import DeleteUserModal from './components/DeleteUserModal/DeleteUserModal';
-import getUserId from "../../utils/getUserId";
 
 class Users extends Component {
   constructor(props) {
@@ -20,11 +19,11 @@ class Users extends Component {
   renderUserRow(user) {
     return (
       <tr key={user.id}>
-        <td>{user.name?.first}</td>
-        <td>{user.name?.last}</td>
+        <td>{user.firstName}</td>
+        <td>{user.lastName}</td>
         <td>
-          <button onClick={this.openUserModal.bind(null, getUserId(user))}>Edytuj</button>
-          <button onClick={this.openDeleteUserModal.bind(null, getUserId(user))}>Usuń</button>
+          <button onClick={this.openUserModal.bind(null, user.id)}>Edytuj</button>
+          <button onClick={this.openDeleteUserModal.bind(null, user.id)}>Usuń</button>
         </td>
       </tr>
     );

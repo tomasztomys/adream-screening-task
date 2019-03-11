@@ -65,11 +65,13 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "json-server": "json-server --watch api/db.json --port 5000"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "eslintIgnore": ["api/"],
   "browserslist": [
     ">0.2%",
     "not dead",
