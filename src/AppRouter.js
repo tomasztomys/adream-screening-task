@@ -29,11 +29,12 @@ class AppRouter extends Component {
             this.props.fetchUsersRandomData(resolve, reject);
           })
             .then(data => {
-              const users = data.map(user => {
+              const users = data.map((user, index) => {
                 return {
                   firstName: user.name.first,
                   lastName: user.name.last,
-                  avatar: user.picture.large
+                  avatar: user.picture.large,
+                  position: index
                 };
               });
 

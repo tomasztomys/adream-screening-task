@@ -4,6 +4,10 @@ import React, { Component } from 'react';
 import UserModal from './components/UserModal/UserModal';
 import { connect } from 'react-redux';
 import DeleteUserModal from './components/DeleteUserModal/DeleteUserModal';
+import UsersTable from './components/UsersTable/UsersTable';
+import { arrayMove } from 'react-sortable-hoc';
+import { find, sortBy } from 'lodash';
+import { editUser } from './actions';
 
 class Users extends Component {
   constructor(props) {
@@ -12,54 +16,17 @@ class Users extends Component {
     this.state = {
       isUserModalOpen: false,
       isDeleteUserModalOpen: false,
-      userId: 0
+      userId: 0,
+      order: props.data.map(user => user.id)
     };
   }
 
-  renderUserRow(user) {
-    return (
-      <tr key={user.id}>
-        <td>{user.firstName}</td>
-        <td>{user.lastName}</td>
-        <td>
-          <button onClick={this.openUserModal.bind(null, user.id)}>Edit</button>
-          <button onClick={this.openDeleteUserModal.bind(null, user.id)}>Delete</button>
-        </td>
-      </tr>
-    );
-  }
-
-  renderUsers() {
-    const { data } = this.props;
-
-    return (
-      <tbody>
-        {data.map(user => {
-          return this.renderUserRow(user);
-        })}
-      </tbody>
-    );
-  }
-
-  renderUsersTable() {
-    const { data } = this.props;
-
-    if (!data?.length) return <div>Empty</div>;
-
-    return (
-      <div className="users__table">
-        <table>
-          <thead>
-            <tr>
-              <td>First name</td>
-              <td>Last name</td>
-              <td>Options</td>
-            </tr>
-          </thead>
-          {this.renderUsers()}
-        </table>
-      </div>
-    );
+  componentDidUpdate(prevProps) {
+    if (prevProps.data.length !== this.props.data.length) {
+      this.setState({
+        order: this.props.data.map(user => user.id)
+      });
+    }
   }
 
   openUserModal = userId => {
@@ -90,8 +57,29 @@ class Users extends Component {
     });
   };
 
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    const { order } = this.state;
+
+    const newOrder = arrayMove(order, oldIndex, newIndex);
+    this.setState({
+      order: newOrder
+    });
+
+    Promise.all(
+      newOrder.map((userId, index) => {
+        const user = find(this.props.data, user => user.id === userId);
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            this.props.editUser({ ...user, position: index }, resolve, reject);
+          }, index * 100);
+        });
+      })
+    );
+  };
+
   render() {
     const { isUserModalOpen, isDeleteUserModalOpen, userId } = this.state;
+    const { data } = this.props;
 
     return (
       <section className="users">
@@ -102,7 +90,12 @@ class Users extends Component {
           <DeleteUserModal isOpen userId={userId} onRequestClose={this.closeDeleteUserModal} />
         )}
         <h1>Users</h1>
-        {this.renderUsersTable()}
+        <UsersTable
+          data={sortBy(data, user => this.state.order.indexOf(user.id))}
+          openUserModal={this.openUserModal}
+          openDeleteUserModal={this.openDeleteUserModal}
+          onSortEnd={this.onSortEnd}
+        />
       </section>
     );
   }
@@ -114,7 +107,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  editUser
+};
 
 export default connect(
   mapStateToProps,

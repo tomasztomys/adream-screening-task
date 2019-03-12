@@ -31,7 +31,7 @@ export const fetchUsers = (resolve, reject) => dispatch => {
   dispatch(fetchUsersRequest());
 
   return axios
-    .get(`${apiConfig.apiUrl}/users`)
+    .get(`${apiConfig.apiUrl}/users?_sort=position`)
     .then(response => {
       dispatch(fetchUsersSuccess(response.data));
       resolve && resolve(response.data);
