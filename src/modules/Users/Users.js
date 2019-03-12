@@ -8,6 +8,7 @@ import UsersTable from './components/UsersTable/UsersTable';
 import { arrayMove } from 'react-sortable-hoc';
 import { find, sortBy } from 'lodash';
 import { editUser } from './actions';
+import { selectUsers } from "./selectors";
 
 class Users extends Component {
   constructor(props) {
@@ -71,7 +72,7 @@ class Users extends Component {
         return new Promise((resolve, reject) => {
           setTimeout(() => {
             this.props.editUser({ ...user, position: index }, resolve, reject);
-          }, index * 100);
+          }, index * 500);
         });
       })
     );
@@ -79,7 +80,7 @@ class Users extends Component {
 
   render() {
     const { isUserModalOpen, isDeleteUserModalOpen, userId } = this.state;
-    const { data } = this.props;
+    const { data, isEditing } = this.props;
 
     return (
       <section className="users">
@@ -95,6 +96,7 @@ class Users extends Component {
           openUserModal={this.openUserModal}
           openDeleteUserModal={this.openDeleteUserModal}
           onSortEnd={this.onSortEnd}
+          isEditing={isEditing}
         />
       </section>
     );
@@ -103,7 +105,8 @@ class Users extends Component {
 
 const mapStateToProps = state => {
   return {
-    data: state.users.data
+    data: selectUsers(state),
+    isEditing: state.users.statuses.isEditing
   };
 };
 

@@ -5,28 +5,28 @@
       "lastName": "yeşilkaya",
       "avatar": "https://randomuser.me/api/portraits/women/78.jpg",
       "id": 1,
-      "position": 3
+      "position": 4
     },
     {
       "firstName": "milja",
       "lastName": "ramo",
       "avatar": "https://randomuser.me/api/portraits/women/14.jpg",
       "id": 2,
-      "position": 1
+      "position": 8
     },
     {
       "firstName": "amandus",
       "lastName": "nyland",
       "avatar": "https://randomuser.me/api/portraits/men/25.jpg",
       "id": 3,
-      "position": 2
+      "position": 0
     },
     {
       "firstName": "lucile",
       "lastName": "hubert",
       "avatar": "https://randomuser.me/api/portraits/women/42.jpg",
       "id": 5,
-      "position": 4
+      "position": 1
     },
     {
       "firstName": "albertje",
@@ -40,28 +40,28 @@
       "lastName": "hall",
       "avatar": "https://randomuser.me/api/portraits/men/13.jpg",
       "id": 7,
-      "position": 0
+      "position": 6
     },
     {
       "firstName": "ryder",
       "lastName": "ross",
       "avatar": "https://randomuser.me/api/portraits/men/70.jpg",
       "id": 8,
-      "position": 6
+      "position": 3
     },
     {
       "firstName": "duane",
       "lastName": "moore",
       "avatar": "https://randomuser.me/api/portraits/men/65.jpg",
       "id": 9,
-      "position": 7
+      "position": 2
     },
     {
       "firstName": "yonna",
       "lastName": "betten",
       "avatar": "https://randomuser.me/api/portraits/women/52.jpg",
       "id": 10,
-      "position": 8
+      "position": 7
     }
   ]
 }

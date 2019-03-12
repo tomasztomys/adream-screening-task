@@ -1,12 +1,13 @@
 import './user_row_styles.scss';
 
 import React from 'react';
+import classnames from 'classnames';
 
 import { SortableElement } from 'react-sortable-hoc';
 
-const UsersRow = SortableElement(({ user, openUserModal, openDeleteUserModal }) => {
+const UsersRow = SortableElement(({ user, openUserModal, openDeleteUserModal, disabledRow }) => {
   return (
-    <tr className="user-row">
+    <tr className={classnames('user-row', { disabled: disabledRow })}>
       <td className="user-row__first-name">{user.firstName}</td>
       <td className="user-row__last-name">{user.lastName}</td>
       <td className="user-row__options">

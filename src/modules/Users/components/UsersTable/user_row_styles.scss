@@ -1,4 +1,10 @@
 .user-row {
+  cursor: move;
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+
   &__first-name {
     width: 150px;
     max-width: 150px;
@@ -20,5 +26,9 @@
   &__options {
     width: 150px;
     max-width: 150px;
+
+    button {
+      cursor: pointer;
+    }
   }
 }
