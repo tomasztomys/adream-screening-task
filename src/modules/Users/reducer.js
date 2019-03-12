@@ -1,10 +1,5 @@
 import UserNotFoundException from './exceptions/UserNotFoundException';
-import {
-  ADD_USER, DELETE_USER,
-  EDIT_USER,
-  FETCH_USERS,
-  SET_PREPARED_USERS_DATA
-} from './actions';
+import { ADD_USER, DELETE_USER, EDIT_USER, FETCH_USERS, SET_PREPARED_USERS_DATA } from './actions';
 import { findIndex } from 'lodash';
 
 const INITIAL_STATE = {
@@ -118,7 +113,6 @@ const UsersReducer = (state = INITIAL_STATE, action) => {
       };
     }
 
-
     case `${ADD_USER}_REQUEST`: {
       return {
         ...state,
@@ -155,15 +149,15 @@ const UsersReducer = (state = INITIAL_STATE, action) => {
     }
 
     case `${EDIT_USER}_REQUEST`: {
-      const newIsEditing = [...state.statuses.isEditing ];
-      const newAfterEditing = [...state.errors.afterEditing ];
-      const isEditingIndex= newIsEditing.indexOf(action.user.id);
-      const afterEditingIndex= newAfterEditing.indexOf(action.user.id);
-      if(isEditingIndex === -1) {
+      const newIsEditing = [...state.statuses.isEditing];
+      const newAfterEditing = [...state.errors.afterEditing];
+      const isEditingIndex = newIsEditing.indexOf(action.user.id);
+      const afterEditingIndex = newAfterEditing.indexOf(action.user.id);
+      if (isEditingIndex === -1) {
         newIsEditing.push(action.user.id);
       }
 
-      if(afterEditingIndex > -1) {
+      if (afterEditingIndex > -1) {
         newAfterEditing.splice(afterEditingIndex, 1);
       }
 
@@ -188,15 +182,15 @@ const UsersReducer = (state = INITIAL_STATE, action) => {
       const newData = [...state.data];
       newData[index] = action.user;
 
-      const newIsEditing = [...state.statuses.isEditing ];
-      const newAfterEditing = [...state.errors.afterEditing ];
-      const isEditingIndex= newIsEditing.indexOf(action.user.id);
-      const afterEditingIndex= newAfterEditing.indexOf(action.user.id);
-      if(isEditingIndex > -1) {
+      const newIsEditing = [...state.statuses.isEditing];
+      const newAfterEditing = [...state.errors.afterEditing];
+      const isEditingIndex = newIsEditing.indexOf(action.user.id);
+      const afterEditingIndex = newAfterEditing.indexOf(action.user.id);
+      if (isEditingIndex > -1) {
         newIsEditing.splice(isEditingIndex, 1);
       }
 
-      if(afterEditingIndex > -1) {
+      if (afterEditingIndex > -1) {
         newAfterEditing.splice(afterEditingIndex, 1);
       }
 
@@ -215,15 +209,15 @@ const UsersReducer = (state = INITIAL_STATE, action) => {
     }
 
     case `${EDIT_USER}_FAILURE`: {
-      const newIsEditing = [...state.statuses.isEditing ];
-      const newAfterEditing = [...state.errors.afterEditing ];
-      const isEditingIndex= newIsEditing.indexOf(action.user.id);
-      const afterEditingIndex= newAfterEditing.indexOf(action.user.id);
-      if(isEditingIndex > -1) {
+      const newIsEditing = [...state.statuses.isEditing];
+      const newAfterEditing = [...state.errors.afterEditing];
+      const isEditingIndex = newIsEditing.indexOf(action.user.id);
+      const afterEditingIndex = newAfterEditing.indexOf(action.user.id);
+      if (isEditingIndex > -1) {
         newIsEditing.splice(isEditingIndex, 1);
       }
 
-      if(afterEditingIndex === -1) {
+      if (afterEditingIndex === -1) {
         newAfterEditing.push(action.user.id);
       }
 
@@ -290,7 +284,6 @@ const UsersReducer = (state = INITIAL_STATE, action) => {
         }
       };
     }
-
 
     default:
       return state;

@@ -2,7 +2,13 @@ import React from 'react';
 
 import UsersBody from './UsersBody';
 
-export default function UsersTable({ data, openUserModal, openDeleteUserModal, onSortEnd, isEditing }) {
+export default function UsersTable({
+  data,
+  openUserModal,
+  openDeleteUserModal,
+  onSortEnd,
+  isEditing
+}) {
   if (!data?.length) return <div>Empty</div>;
 
   return (

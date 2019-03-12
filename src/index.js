@@ -19,7 +19,7 @@ const store = createStore(
   reducers,
   composeWithDevTools(
     applyMiddleware(
-      thunkMiddleware, // lets us dispatch() functions
+      thunkMiddleware // lets us dispatch() functions
       // loggerMiddleware // neat middleware that logs actions
     )
   )
