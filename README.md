@@ -14,6 +14,7 @@ Json-server
 
 
 ## Instrukcja uruchomienia:
+1. Zainstaluj paczki: `npm install`
 1. Zainstaluj globalnie json-server: `npm install -g json-server`
 1. Uruchom serwer: `npm run json-server`
 1. Uruchom: `npm run start`
