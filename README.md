@@ -19,3 +19,6 @@ Json-server
 1. Uruchom serwer: `npm run json-server`
 1. Uruchom: `npm run start`
 1. Przeglądarka uruchomi automatycznie stronę aplikacji (`http://localhost:3000`)
+
+
+Natomiast wersja zbuildowana wymaga konfiguracji serwera hostującego aplikację (np. konfiguracja linków).
