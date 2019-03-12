@@ -22,8 +22,8 @@ class Users extends Component {
         <td>{user.firstName}</td>
         <td>{user.lastName}</td>
         <td>
-          <button onClick={this.openUserModal.bind(null, user.id)}>Edytuj</button>
-          <button onClick={this.openDeleteUserModal.bind(null, user.id)}>Usuń</button>
+          <button onClick={this.openUserModal.bind(null, user.id)}>Edit</button>
+          <button onClick={this.openDeleteUserModal.bind(null, user.id)}>Delete</button>
         </td>
       </tr>
     );
@@ -42,14 +42,18 @@ class Users extends Component {
   }
 
   renderUsersTable() {
+    const { data } = this.props;
+
+    if (!data?.length) return <div>Empty</div>;
+
     return (
       <div className="users__table">
         <table>
           <thead>
             <tr>
-              <td>Imię</td>
-              <td>Nazwisko</td>
-              <td>Opcje</td>
+              <td>First name</td>
+              <td>Last name</td>
+              <td>Options</td>
             </tr>
           </thead>
           {this.renderUsers()}
@@ -91,12 +95,12 @@ class Users extends Component {
 
     return (
       <section className="users">
-        <UserModal isOpen={isUserModalOpen} userId={userId} onRequestClose={this.closeUserModal} />
-        <DeleteUserModal
-          isOpen={isDeleteUserModalOpen}
-          userId={userId}
-          onRequestClose={this.closeDeleteUserModal}
-        />
+        {isUserModalOpen && (
+          <UserModal isOpen userId={userId} onRequestClose={this.closeUserModal} />
+        )}
+        {isDeleteUserModalOpen && (
+          <DeleteUserModal isOpen userId={userId} onRequestClose={this.closeDeleteUserModal} />
+        )}
         <h1>Users</h1>
         {this.renderUsersTable()}
       </section>

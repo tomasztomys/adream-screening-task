@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
+// import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import AppRouter from './AppRouter';
@@ -13,14 +13,14 @@ import * as serviceWorker from './serviceWorker';
 
 import reducers from './reducers';
 
-const loggerMiddleware = createLogger();
+// const loggerMiddleware = createLogger();
 
 const store = createStore(
   reducers,
   composeWithDevTools(
     applyMiddleware(
       thunkMiddleware, // lets us dispatch() functions
-      loggerMiddleware // neat middleware that logs actions
+      // loggerMiddleware // neat middleware that logs actions
     )
   )
 );

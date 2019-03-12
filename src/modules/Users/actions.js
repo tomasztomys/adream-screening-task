@@ -1,12 +1,12 @@
 import axios from 'axios';
-import * as apiConfig from "../../config/apiConfig";
+import * as apiConfig from '../../config/apiConfig';
 
 export const FETCH_USERS = 'FETCH_USERS';
 export const FETCH_USERS_RANDOM_DATA = 'FETCH_USERS_RANDOM_DATA';
 export const ADD_USER = 'ADD_USER';
+export const EDIT_USER = 'EDIT_USER';
 export const DELETE_USER = 'DELETE_USER';
 export const SET_PREPARED_USERS_DATA = 'SET_PREPARED_USERS_DATA';
-export const SET_IS_PREPARING_USERS_DATA = 'SET_IS_PREPARING_USERS_DATA';
 
 const fetchUsersRequest = () => {
   return {
@@ -14,7 +14,7 @@ const fetchUsersRequest = () => {
   };
 };
 
-const fetchUsersSuccess = (data) => {
+const fetchUsersSuccess = data => {
   return {
     type: `${FETCH_USERS}_SUCCESS`,
     data
@@ -37,7 +37,7 @@ export const fetchUsers = (resolve, reject) => dispatch => {
       resolve && resolve(response.data);
     })
     .catch(error => {
-      console.log(error);
+      console.error(error);
       dispatch(fetchUsersFailure());
       reject && reject(error);
     });
@@ -49,7 +49,7 @@ const fetchUsersRandomDataRequest = () => {
   };
 };
 
-const fetchUsersRandomDataSuccess = (data) => {
+const fetchUsersRandomDataSuccess = data => {
   return {
     type: `${FETCH_USERS_RANDOM_DATA}_SUCCESS`,
     data
@@ -72,12 +72,11 @@ export const fetchUsersRandomData = (resolve, reject) => dispatch => {
       resolve && resolve(response.data.results);
     })
     .catch(error => {
-      console.log(error);
+      console.error(error);
       dispatch(fetchUsersRandomDataFailure());
       reject && reject(error);
     });
 };
-
 
 const addUserRequest = user => {
   return {
@@ -106,17 +105,52 @@ export const addUser = (user, resolve, reject) => dispatch => {
   return axios
     .post(`${apiConfig.apiUrl}/users`, user)
     .then(response => {
-      console.log(response);
-      dispatch(addUserSuccess(user));
-      resolve && resolve(user);
+      dispatch(addUserSuccess(response.data));
+      resolve && resolve(response.data);
     })
     .catch(error => {
-      console.log(error);
+      console.error(error);
       dispatch(addUserFailure(user));
       reject && reject(user);
     });
 };
 
+const editUserRequest = user => {
+  return {
+    type: `${EDIT_USER}_REQUEST`,
+    user
+  };
+};
+
+const editUserSuccess = user => {
+  return {
+    type: `${EDIT_USER}_SUCCESS`,
+    user
+  };
+};
+
+const editUserFailure = user => {
+  return {
+    type: `${EDIT_USER}_FAILURE`,
+    user
+  };
+};
+
+export const editUser = (user, resolve, reject) => dispatch => {
+  dispatch(editUserRequest(user));
+
+  return axios
+    .put(`${apiConfig.apiUrl}/users/${user.id}`, user)
+    .then(response => {
+      dispatch(editUserSuccess(response.data));
+      resolve && resolve(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch(editUserFailure(user));
+      reject && reject(user);
+    });
+};
 
 const deleteUserRequest = userId => {
   return {
@@ -139,31 +173,37 @@ const deleteUserFailure = userId => {
   };
 };
 
-export const deleteUser = userId => dispatch => {
+export const deleteUser = (userId, resolve, reject) => dispatch => {
   dispatch(deleteUserRequest(userId));
 
   return axios
-    .delete(`${apiConfig.apiUrl}/${userId}`)
+    .delete(`${apiConfig.apiUrl}/users/${userId}`)
     .then(response => {
-      console.log(response);
       dispatch(deleteUserSuccess(userId));
+      resolve && resolve(response.data);
     })
     .catch(error => {
-      console.log(error);
+      console.error(error);
       dispatch(deleteUserFailure(userId));
+      reject && reject(userId);
     });
 };
 
-export const setPreparedUsersData = (isPrepared) => {
+
+export const setPreparedUsersDataRequest = () => {
   return {
-    type: SET_PREPARED_USERS_DATA,
-    isPrepared
+    type: `${SET_PREPARED_USERS_DATA}_REQUEST`
   };
 };
 
-export const setIsPreparingUsersData = (isPreparing) => {
+export const setPreparedUsersDataSuccess = () => {
   return {
-    type: SET_IS_PREPARING_USERS_DATA,
-    isPreparing
+    type: `${SET_PREPARED_USERS_DATA}_SUCCESS`
+  };
+};
+
+export const setPreparedUsersDataFailure = () => {
+  return {
+    type: `${SET_PREPARED_USERS_DATA}_FAILURE`
   };
 };
