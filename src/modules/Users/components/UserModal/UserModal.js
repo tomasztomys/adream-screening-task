@@ -16,7 +16,7 @@ class UserModal extends Component {
     };
   }
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     const { user, editUser, onRequestClose } = this.props;
     const { firstName, lastName } = this.state;
 
@@ -64,12 +64,12 @@ class UserModal extends Component {
         <h2>UserModal</h2>
         <img src={user.avatar} alt="user avatar" />
         <form onSubmit={e => this.onSubmit()}>
-        <input type="text" value={firstName} onChange={this.onFirstNameChange} />
-        <input type="text" value={lastName} onChange={this.onLastNameChange} />
-        <button onClick={this.onSubmit} disabled={isEditing}>
-          Save
-        </button>
-        {isEditing && <span>Editing</span>}
+          <input type="text" value={firstName} onChange={this.onFirstNameChange} />
+          <input type="text" value={lastName} onChange={this.onLastNameChange} />
+          <button onClick={this.onSubmit} disabled={isEditing}>
+            Save
+          </button>
+          {isEditing && <span>Editing</span>}
         </form>
       </Modal>
     );
@@ -79,7 +79,7 @@ class UserModal extends Component {
 const mapStateToProps = (state, props) => {
   return {
     user: selectUsers(state, props.userId),
-    isEditing: state.users.statuses.isEditing
+    isEditing: state.users.statuses.isEditing.indexOf(props.userId) > -1
   };
 };
 

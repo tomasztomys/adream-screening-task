@@ -136,6 +136,13 @@ const editUserFailure = user => {
   };
 };
 
+export const setEditUserRequest = user => dispatch => {
+  dispatch({
+    type: `${EDIT_USER}_REQUEST`,
+    user
+  });
+};
+
 export const editUser = (user, resolve, reject) => dispatch => {
   dispatch(editUserRequest(user));
 
@@ -188,7 +195,6 @@ export const deleteUser = (userId, resolve, reject) => dispatch => {
       reject && reject(userId);
     });
 };
-
 
 export const setPreparedUsersDataRequest = () => {
   return {

@@ -13,7 +13,7 @@ const INITIAL_STATE = {
     isPrepared: false,
     isPreparing: false,
     isAdding: false,
-    isEditing: false,
+    isEditing: [],
     isFetching: false,
     isDeleting: false
   },
@@ -21,7 +21,7 @@ const INITIAL_STATE = {
     afterPreparing: false,
     afterFetching: false,
     afterAdding: false,
-    afterEditing: false,
+    afterEditing: [],
     afterDeleting: false
   }
 };
@@ -83,6 +83,7 @@ const UsersReducer = (state = INITIAL_STATE, action) => {
           isPreparing: true
         },
         errors: {
+          ...state.errors,
           afterPreparing: false
         }
       };
@@ -97,6 +98,7 @@ const UsersReducer = (state = INITIAL_STATE, action) => {
           isPrepared: true
         },
         errors: {
+          ...state.errors,
           afterPreparing: false
         }
       };
@@ -110,6 +112,7 @@ const UsersReducer = (state = INITIAL_STATE, action) => {
           isPreparing: false
         },
         errors: {
+          ...state.errors,
           afterPreparing: true
         }
       };
@@ -152,15 +155,27 @@ const UsersReducer = (state = INITIAL_STATE, action) => {
     }
 
     case `${EDIT_USER}_REQUEST`: {
+      const newIsEditing = [...state.statuses.isEditing ];
+      const newAfterEditing = [...state.errors.afterEditing ];
+      const isEditingIndex= newIsEditing.indexOf(action.user.id);
+      const afterEditingIndex= newAfterEditing.indexOf(action.user.id);
+      if(isEditingIndex === -1) {
+        newIsEditing.push(action.user.id);
+      }
+
+      if(afterEditingIndex > -1) {
+        newAfterEditing.splice(afterEditingIndex, 1);
+      }
+
       return {
         ...state,
         statuses: {
           ...state.statuses,
-          isEditing: true
+          isEditing: newIsEditing
         },
         errors: {
           ...state.errors,
-          afterEditing: false
+          afterEditing: newAfterEditing
         }
       };
     }
@@ -170,34 +185,57 @@ const UsersReducer = (state = INITIAL_STATE, action) => {
       if (index < 0) {
         throw new UserNotFoundException('Exception. User to edit not found');
       }
-
       const newData = [...state.data];
       newData[index] = action.user;
+
+      const newIsEditing = [...state.statuses.isEditing ];
+      const newAfterEditing = [...state.errors.afterEditing ];
+      const isEditingIndex= newIsEditing.indexOf(action.user.id);
+      const afterEditingIndex= newAfterEditing.indexOf(action.user.id);
+      if(isEditingIndex > -1) {
+        newIsEditing.splice(isEditingIndex, 1);
+      }
+
+      if(afterEditingIndex > -1) {
+        newAfterEditing.splice(afterEditingIndex, 1);
+      }
 
       return {
         ...state,
         data: newData,
         statuses: {
           ...state.statuses,
-          isEditing: false
+          isEditing: newIsEditing
         },
         errors: {
           ...state.errors,
-          afterEditing: false
+          afterEditing: newAfterEditing
         }
       };
     }
 
     case `${EDIT_USER}_FAILURE`: {
+      const newIsEditing = [...state.statuses.isEditing ];
+      const newAfterEditing = [...state.errors.afterEditing ];
+      const isEditingIndex= newIsEditing.indexOf(action.user.id);
+      const afterEditingIndex= newAfterEditing.indexOf(action.user.id);
+      if(isEditingIndex > -1) {
+        newIsEditing.splice(isEditingIndex, 1);
+      }
+
+      if(afterEditingIndex === -1) {
+        newAfterEditing.push(action.user.id);
+      }
+
       return {
         ...state,
         statuses: {
           ...state.statuses,
-          isEditing: false
+          isEditing: newIsEditing
         },
         errors: {
           ...state.errors,
-          afterEditing: true
+          afterEditing: newAfterEditing
         }
       };
     }
