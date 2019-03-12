@@ -71,7 +71,11 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "json-server": "json-server --watch api/db.json --port 5000"
+    "json-server": "json-server --watch api/db.json --port 5000",
+    "prettier:js": "prettier --write \"{src,test}/**/*.js\"",
+    "prettier:js:check": "prettier --list-different \"{src,test}/**/*.js\"",
+    "prettier:scss": "prettier --write \"{src,test}/**/*.scss\"",
+    "prettier:scss:check": "prettier --list-different \"{src,test}/**/*.scss\""
   },
   "eslintConfig": {
     "extends": "react-app"
